@@ -1,9 +1,10 @@
 import React from 'react';
 
+import Developer from './developer.jsx';
+
 class MainGame extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
     this.wsConnected = false;
 
     // instantiate web socket
@@ -29,6 +30,8 @@ class MainGame extends React.Component {
     setInterval(() => {
       this.ws.send('PING');
     }, 15000);
+
+    this.sendMessage = this.sendMessage.bind(this);
   }
 
   sendMessage(msg) {
@@ -45,12 +48,11 @@ class MainGame extends React.Component {
   }
 
   genPage() {
-    this.sendMessage('hello from genPage()');
+    let item;
     switch (this.props.user) {
       // shown fib numbers
       case 'developer': {
-
-
+        item = <Developer callback={this.sendMessage} />
         break;
       }
 
@@ -69,7 +71,7 @@ class MainGame extends React.Component {
       }
     }
     return (
-      <h1>{this.props.user}</h1>
+      <h1>{item}</h1>
     );
   }
 
